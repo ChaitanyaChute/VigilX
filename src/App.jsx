@@ -6,6 +6,7 @@ import './App.css';
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx'; // Assuming you have a Footer component
 import Home from './pages/Home.jsx';
+import FraudDetection from './pages/FraudDetection.jsx';
 import Login from './pages/Login.jsx';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
 
           {/* Route for the login/signup page */}
           <Route path="/login" element={<Login />} />
+          <Route path="/FraudDetection" element={<FraudDetection />} />
 
         </Routes>
       </main>

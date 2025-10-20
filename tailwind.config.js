@@ -12,13 +12,18 @@ module.exports = {
         sans: ['"Josefin Sans"', ...defaultTheme.fontFamily.sans],
       },
       keyframes: {
+        // --- NEW: Keyframe for the typing cursor ---
+        'blink-caret': {
+          'from, to': { borderColor: 'transparent' },
+          '50%': { borderColor: '#3b82f6' }, // blue-500
+        },
         'fade-in-up': {
           '0%': { opacity: '0', transform: 'translateY(30px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-        'text-reveal': {
-          '0%': { transform: 'translateY(100%)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
+        'fade-in-down': {
+            '0%': { opacity: '0', transform: 'translateY(-20px)' },
+            '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         blob: {
           '0%, 100%': { transform: 'translate(0px, 0px) scale(1)' },
@@ -39,8 +44,10 @@ module.exports = {
         },
       },
       animation: {
+        // --- NEW: Animation utility for the cursor ---
+        'blink-caret': 'blink-caret 1s step-end infinite',
         'fade-in-up': 'fade-in-up 1s ease-out forwards',
-        'text-reveal': 'text-reveal 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards',
+        'fade-in-down': 'fade-in-down 1s ease-out forwards',
         blob: 'blob 8s infinite ease-in-out',
         'border-pulse': 'border-pulse 4s infinite ease-in-out',
         'scroll-slow': 'scroll 40s linear infinite',
