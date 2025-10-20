@@ -1,105 +1,144 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { FaPlayCircle } from "react-icons/fa";
 
-// --- SVG Icon for the CTA button ---
-const ArrowRightIcon = () => (
-    <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
-);
+// --- Animated Title Component ---
+const AnimatedTitle = ({ text }) => {
+  return (
+    <h1 className="text-6xl md:text-8xl font-extrabold text-white mb-6 tracking-tight">
+      {text.split('').map((char, index) => (
+        <span key={index} className="inline-block overflow-hidden">
+          <span
+            className="inline-block animate-text-reveal"
+            style={{ animationDelay: `${index * 0.05}s` }}
+          >
+            {char === ' ' ? '\u00A0' : char}
+          </span>
+        </span>
+      ))}
+    </h1>
+  );
+};
 
-// --- A simplified, non-interactive Dashboard Preview component ---
-const DashboardPreview = () => (
-    <div className="w-full max-w-5xl mx-auto mt-20 p-1.5 rounded-2xl bg-gradient-to-b from-gray-700/50 to-transparent">
-        <div className="bg-black/80 backdrop-blur-xl rounded-xl border border-gray-800/80 shadow-2xl shadow-blue-500/10">
-            {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-800/80">
-                <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                </div>
-                <div className="text-sm text-gray-400">VigilX Dashboard</div>
-                <div></div>
-            </div>
-            {/* Body */}
-            <div className="p-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {/* Stat Card */}
-                    <div className="bg-gray-900/50 p-4 rounded-lg border border-gray-800/80">
-                        <p className="text-sm text-gray-400">Transactions Scanned</p>
-                        <p className="text-2xl font-bold text-white">1,402,199</p>
-                    </div>
-                    {/* Stat Card */}
-                    <div className="bg-gray-900/50 p-4 rounded-lg border border-gray-800/80">
-                        <p className="text-sm text-gray-400">Suspicious Activity</p>
-                        <p className="text-2xl font-bold text-blue-400">9,241</p>
-                    </div>
-                    {/* Stat Card */}
-                    <div className="bg-gray-900/50 p-4 rounded-lg border border-gray-800/80">
-                        <p className="text-sm text-gray-400">Threats Prevented</p>
-                        <p className="text-2xl font-bold text-green-400">1,056</p>
-                    </div>
-                </div>
-                {/* Fake Chart */}
-                <div className="mt-6 bg-gray-900/50 h-48 rounded-lg border border-gray-800/80 flex items-end p-4">
-                    <div className="w-1/6 h-1/3 bg-blue-500/50 rounded-t-sm"></div>
-                    <div className="w-1/6 h-2/3 bg-blue-500/50 rounded-t-sm ml-2"></div>
-                    <div className="w-1G h-1/2 bg-blue-500/50 rounded-t-sm ml-2"></div>
-                    <div className="w-1/6 h-3/4 bg-blue-500/50 rounded-t-sm ml-2"></div>
-                    <div className="w-1/6 h-1/4 bg-blue-500/50 rounded-t-sm ml-2"></div>
-                    <div className="w-1/6 h-2/5 bg-blue-500/50 rounded-t-sm ml-2"></div>
-                </div>
-            </div>
-        </div>
+// --- Testimonial Data ---
+const testimonials = [
+    { name: "Alex Carter", title: "CFO, FinTech Solutions", avatar: "https://api.uifaces.co/api/v1/random?char_limit=1", quote: "VigilX caught a fraudulent transaction pattern we'd been missing for months. Incredibly powerful and deceptively simple." },
+    { name: "Sarah Chen", title: "Lead Developer, E-comm Inc.", avatar: "https://api.uifaces.co/api/v1/random?char_limit=1", quote: "The integration was seamless. We were up and running, analyzing live data in an afternoon. The team loves it." },
+    { name: "Mark Reynolds", title: "Head of Analytics", avatar: "https://api.uifaces.co/api/v1/random?char_limit=1", quote: "Finally! A fraud tool that's both powerful for analysts and simple for the rest of the team. The reporting is A+." },
+    { name: "Jane Smith", title: "Risk & Compliance Officer", avatar: "https://api.uifaces.co/api/v1/random?char_limit=1", quote: "I've explored other tools. VigilX is on another level. The UI is clean, fast, and the AI is frighteningly accurate." }
+];
+
+// --- Testimonial Card Component ---
+const TestimonialCard = ({ quote, name, title, avatar }) => (
+  <div className="flex-shrink-0 w-full max-w-sm bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mx-4">
+    <p className="text-gray-300 mb-4">"{quote}"</p>
+    <div className="flex items-center">
+      <img src={`${avatar}&name=${name}`} alt={name} className="w-10 h-10 rounded-full border-2 border-gray-700" />
+      <div className="ml-3">
+        <p className="font-semibold text-white">{name}</p>
+        <p className="text-sm text-gray-500">{title}</p>
+      </div>
     </div>
+  </div>
 );
 
+
+// --- Main Home Component ---
 export default function Home() {
-    return (
-        <main className="relative px-4 pt-24 pb-24 sm:pt-24 lg:pt-32 text-center min-h-screen overflow-hidden">
-            {/* Window Boundary Highlighter */}
-            <div className="fixed inset-0 pointer-events-none z-0">
-                <div className="absolute inset-0 border border-blue-500/40 rounded-lg filter blur-lg animate-border-pulse"></div>
-            </div>
+  return (
+    <div className="bg-black text-gray-100 overflow-x-hidden">
+      
+      {/* ===== Section 1: Hero ===== */}
+      <section className="relative flex flex-col items-center justify-center min-h-screen text-center px-6 overflow-hidden">
+        <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-blue-600/10 rounded-full filter blur-3xl opacity-60 animate-blob"></div>
+        <div className="absolute top-1/2 right-1/4 w-[350px] h-[350px] bg-indigo-600/10 rounded-full filter blur-3xl opacity-60 animate-blob" style={{ animationDelay: '2s' }}></div>
+        <div className="fixed inset-0 pointer-events-none z-0">
+            <div className="absolute inset-0 border border-blue-500/40 rounded-lg filter blur-lg animate-border-pulse"></div>
+        </div>
 
-            {/* Glowing Moving Blobs */}
-            <div 
-              className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-blue-600/10 rounded-full filter blur-3xl opacity-60 animate-blob mix-blend-screen" 
-              style={{ animationDelay: '0s' }}
-            ></div>
-            <div 
-              className="absolute top-1/2 right-1/4 w-[350px] h-[350px] bg-purple-600/10 rounded-full filter blur-3xl opacity-60 animate-blob mix-blend-screen" 
-              style={{ animationDelay: '2s' }}
-            ></div>
-            <div 
-              className="absolute bottom-1/4 left-1/3 w-[300px] h-[300px] bg-indigo-600/10 rounded-full filter blur-3xl opacity-60 animate-blob mix-blend-screen" 
-              style={{ animationDelay: '4s' }}
-            ></div>
+        <div className="relative z-10">
+          <AnimatedTitle text="VigilX" />
+          <p className="text-lg text-gray-400 max-w-xl mx-auto mb-10 animate-fade-in-down" style={{ animationDelay: '0.6s' }}>
+            AI-powered models that make your financial data truly secure and transparent. All in one click.
+          </p>
+          <div className="animate-fade-in-down" style={{ animationDelay: '0.9s' }}>
+            <Link
+              to="/login" 
+              state={{ defaultIsLogin: false }}
+              className="text-lg bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-semibold px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg shadow-blue-500/20"
+            >
+              Start Analyzing for Free
+            </Link>
+          </div>
+        </div>
+      </section>
 
-            {/* Content (Must have z-10 to be on top of blobs) */}
-            <div className="relative z-10 max-w-4xl mx-auto">
-                <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight">
-                    Fraud Detection with{" "}
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
-                        Precision
-                    </span>
-                </h1>
-                <p className="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-gray-300">
-                    Effortlessly streamline your financial security. Analyze, detect, and prevent fraudulent transactions all in one place.
-                </p>
-                <div className="mt-8">
-                    <a
-                        href="#"
-                        className="inline-flex items-center justify-center bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/20"
-                    >
-                        Start Analyzing for Free
-                        <ArrowRightIcon />
-                    </a>
-                </div>
+      {/* ===== Section 2: Launchpad CTA ===== */}
+      <section className="py-24 px-6 glowing-grid-background">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-5xl font-bold text-white mb-6">
+            Enter the Fraud Detection Launchpad
+          </h2>
+          <p className="text-lg text-gray-400 max-w-2xl mx-auto mb-10">
+            Your journey to financial security starts here. Upload your data and let our AI provide instant, actionable insights. No setup required.
+          </p>
+          <Link
+            to="/FraudDetection"
+            className="inline-flex items-center text-lg bg-white text-black font-semibold px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+          >
+            <FaPlayCircle className="mr-3" />
+            Launch Tool
+          </Link>
+        </div>
+      </section>
+      
+      {/* ===== Section 3: Stats Cards ===== */}
+      <section className="py-24 bg-black">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid md:grid-cols-3 gap-8 text-left">
+            <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-8">
+              <h2 className="text-7xl font-bold text-blue-500 mb-3">1.4M+</h2>
+              <h3 className="text-2xl font-semibold text-white mt-2">Transactions Scanned</h3>
+              <p className="text-gray-400 mt-2">Our AI processes millions of data points to find the needles in the haystack.</p>
             </div>
+            <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-8">
+              <h2 className="text-7xl font-bold text-blue-500 mb-3">99.8%</h2>
+              <h3 className="text-2xl font-semibold text-white mt-2">Detection Accuracy</h3>
+              <p className="text-gray-400 mt-2">Fine-tuned models built to identify complex financial fraud patterns.</p>
+            </div>
+            <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-8">
+              <h2 className="text-7xl font-bold text-blue-500 mb-3">{"< 5s"}</h2>
+              <h3 className="text-2xl font-semibold text-white mt-2">Instant Reporting</h3>
+              <p className="text-gray-400 mt-2">Get actionable insights and comprehensive reports in seconds, not hours.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            {/* Dashboard Preview (Must also have z-10) */}
-            <div className="relative z-10">
-                <DashboardPreview />
-            </div>
-        </main>
-    );
+      {/* ===== Section 4: Testimonial Marquee ===== */}
+      <section className="py-24 bg-black overflow-hidden">
+        <h2 className="text-5xl font-bold text-center text-white mb-6">Trusted by Teams Worldwide</h2>
+        <p className="text-lg text-gray-400 text-center mb-16 max-w-2xl mx-auto">
+          See what developers, analysts, and CFOs are saying about VigilX.
+        </p>
+        <div 
+          className="relative w-full overflow-hidden"
+          style={{ maskImage: "linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)" }}
+        >
+          <div className="flex animate-scroll-slow">
+            {[...testimonials, ...testimonials].map((item, index) => (
+              <TestimonialCard 
+                key={index}
+                quote={item.quote}
+                name={item.name}
+                title={item.title}
+                avatar={item.avatar}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+    </div>
+  );
 };

@@ -1,10 +1,16 @@
+/* Add to your main index.css or App.css file */
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&display=swap');
+
+/* Add to your main index.css or App.css file */
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Add to your main index.css or App.css file */
-/* Add to your main index.css or App.css file */
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&display=swap');
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   font-family: 'Josefin Sans', sans-serif;
@@ -19,30 +25,10 @@ body {
   overflow-x: hidden;
   position: relative;
 }
-
-/* We'll handle the "glowing orbs" directly in Home.jsx for more control */
-/* Removed previous body::before and body::after */
-
-body::before {
-    content: '';
-    position: absolute;
-    top: 10%;
-    left: -10%;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(29, 78, 216, 0.15), transparent 70%);
-    filter: blur(100px);
-    z-index: -1;
+/* Helper class to trigger animations on scroll (add this with JavaScript) */
+.animate-on-scroll {
+  opacity: 0; /* Start hidden */
 }
-
-body::after {
-    content: '';
-    position: absolute;
-    bottom: 10%;
-    right: -10%;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(29, 78, 216, 0.15), transparent 70%);
-    filter: blur(100px);
-    z-index: -1;
+.is-visible {
+  animation: fade-in-up 1s ease-out forwards;
 }
