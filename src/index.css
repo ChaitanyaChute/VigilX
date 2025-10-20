@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Add to your main index.css or App.css file */
+/* Add to your main index.css or App.css file */
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&display=swap');
+
+body {
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 400;
+  background-color: #000000;
+  color: #ffffff;
+  /* Creates the subtle grid pattern */
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 30px 30px;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* We'll handle the "glowing orbs" directly in Home.jsx for more control */
+/* Removed previous body::before and body::after */
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(29, 78, 216, 0.15), transparent 70%);
+    filter: blur(100px);
+    z-index: -1;
+}
+
+body::after {
+    content: '';
+    position: absolute;
+    bottom: 10%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(29, 78, 216, 0.15), transparent 70%);
+    filter: blur(100px);
+    z-index: -1;
+}
