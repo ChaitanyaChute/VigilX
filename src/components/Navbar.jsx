@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link
+import React, { useState, useEffect } from 'react';
+import { NavLink, Link } from 'react-router-dom'; // Import NavLink for active link styling
 
 // --- SVG Icons ---
 const VigilXLogo = () => (
@@ -22,21 +22,37 @@ const CloseIcon = () => (
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Effect to handle scroll detection for navbar background
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Base classes for NavLink
+  const navLinkClasses = "text-gray-400 transition-all duration-300 transform hover:text-white hover:-translate-y-0.5";
+  // Function to determine active NavLink classes
+  const getActiveNavLinkClass = ({ isActive }) =>
+    isActive ? `${navLinkClasses} text-white border-b-2 border-blue-500 pb-1` : navLinkClasses;
 
   const navLinks = (
     <>
-      <Link to="/" className="text-gray-300 hover:text-white transition-colors duration-300">Home</Link>
-      <Link to="/features" className="text-gray-300 hover:text-white transition-colors duration-300">Features</Link>
-      <Link to="/insights" className="text-gray-300 hover:text-white transition-colors duration-300">Insights</Link>
-      <Link to="/about" className="text-gray-300 hover:text-white transition-colors duration-300">About</Link>
-      <Link to="/contact" className="text-gray-300 hover:text-white transition-colors duration-300">Contact</Link>
+      <NavLink to="/" className={getActiveNavLinkClass}>Home</NavLink>
+      <NavLink to="/features" className={getActiveNavLinkClass}>Features</NavLink>
+      <NavLink to="/insights" className={getActiveNavLinkClass}>Insights</NavLink>
+      <NavLink to="/about" className={getActiveNavLinkClass}>About</NavLink>
+      <NavLink to="/contact" className={getActiveNavLinkClass}>Contact</NavLink>
     </>
   );
 
   return (
-    <nav className="bg-black sticky top-0 z-50">
+    <nav className={`sticky top-0 z-50 transition-all duration-300 backdrop-blur-md ${isScrolled ? 'bg-black/80 shadow-lg' : 'bg-transparent'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20 border-b border-gray-800/50">
+        <div className={`flex items-center justify-between h-20 transition-colors duration-300`}>
           <div className="flex-shrink-0">
             <Link to="/" className="flex items-center space-x-2">
               <VigilXLogo />
@@ -45,9 +61,14 @@ export default function Navbar() {
           </div>
           <div className="hidden md:flex md:items-center md:space-x-8">{navLinks}</div>
           <div className="hidden md:flex items-center space-x-4">
-            {/* --- UPDATED LINKS with STATE --- */}
             <Link to="/login" state={{ defaultIsLogin: true }} className="text-gray-300 hover:text-white font-medium transition-colors duration-300">Login</Link>
-            <Link to="/login" state={{ defaultIsLogin: false }} className="bg-blue-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-700 transition-all duration-300">Sign Up</Link>
+            <Link 
+              to="/login" 
+              state={{ defaultIsLogin: false }} 
+              className="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-md"
+            >
+              Sign Up
+            </Link>
           </div>
           <div className="md:hidden flex items-center">
             <button
@@ -62,18 +83,17 @@ export default function Navbar() {
         </div>
       </div>
 
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-black border-b border-gray-800">
-          <div className="px-2 pt-2 pb-3 space-y-2 sm:px-3 text-center">{navLinks}</div>
-          <div className="pt-4 pb-4 border-t border-gray-800">
-            <div className="px-5 flex flex-col items-center space-y-3">
-               {/* --- UPDATED MOBILE LINKS with STATE --- */}
-               <Link to="/login" state={{ defaultIsLogin: true }} className="block text-gray-300 hover:text-white font-medium transition-colors duration-300">Login</Link>
-               <Link to="/login" state={{ defaultIsLogin: false }} className="block w-full text-center bg-blue-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-700 transition-all duration-300">Sign Up</Link>
-            </div>
+      {/* Enhanced Mobile Menu with Slide-Down Animation */}
+      <div className={`md:hidden absolute top-full left-0 w-full bg-black/90 backdrop-blur-md transition-all duration-300 ease-in-out transform ${isMobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'}`}>
+        <div className="px-5 pt-4 pb-6 flex flex-col items-center space-y-4">
+          {navLinks}
+          <div className="w-full pt-4 flex flex-col items-center space-y-3">
+            {/* --- THIS IS THE CORRECTED LINE --- */}
+            <Link to="/login" state={{ defaultIsLogin: true }} className="block text-gray-300 hover:text-white font-medium transition-colors duration-300">Login</Link>
+            <Link to="/login" state={{ defaultIsLogin: false }} className="block w-full text-center bg-blue-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-700 transition-all duration-300">Sign Up</Link>
           </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 };

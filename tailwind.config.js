@@ -9,38 +9,42 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        // Sets Josefin Sans as the default 'sans' font
         sans: ['"Josefin Sans"', ...defaultTheme.fontFamily.sans],
       },
       keyframes: {
-        // --- Hero text animation ---
-        'fade-in-down': {
-          '0%': { opacity: '0', transform: 'translateY(-20px)' },
+        'fade-in-up': {
+          '0%': { opacity: '0', transform: 'translateY(30px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-        // --- Glowing background blobs ---
+        'text-reveal': {
+          '0%': { transform: 'translateY(100%)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
         blob: {
           '0%, 100%': { transform: 'translate(0px, 0px) scale(1)' },
           '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
           '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
         },
-        // --- Window border pulse ---
         'border-pulse': {
           '0%, 100%': { 'border-color': 'rgba(59, 130, 246, 0.4)' },
           '50%': { 'border-color': 'rgba(59, 130, 246, 0.8)' },
         },
-        // --- Testimonial marquee scroll ---
         scroll: {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-50%)' },
         },
+        'shine': {
+          '0%': { transform: 'translateX(-100%) skewX(-20deg)' },
+          '100%': { transform: 'translateX(200%) skewX(-20deg)' },
+        },
       },
       animation: {
-        'fade-in-down': 'fade-in-down 1s ease-out forwards',
-        blob: 'blob 7s infinite ease-in-out',
+        'fade-in-up': 'fade-in-up 1s ease-out forwards',
+        'text-reveal': 'text-reveal 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards',
+        blob: 'blob 8s infinite ease-in-out',
         'border-pulse': 'border-pulse 4s infinite ease-in-out',
-        // --- Defines a slow 40-second scroll ---
         'scroll-slow': 'scroll 40s linear infinite',
+        'shine': 'shine 1.5s infinite linear',
       },
     },
   },

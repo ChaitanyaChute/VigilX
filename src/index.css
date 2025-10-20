@@ -1,9 +1,6 @@
 /* Add to your main index.css or App.css file */
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&display=swap');
 
-/* Add to your main index.css or App.css file */
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,7 +14,6 @@ body {
   font-weight: 400;
   background-color: #000000;
   color: #ffffff;
-  /* Creates the subtle grid pattern */
   background-image:
     linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
@@ -25,10 +21,24 @@ body {
   overflow-x: hidden;
   position: relative;
 }
-/* Helper class to trigger animations on scroll (add this with JavaScript) */
-.animate-on-scroll {
-  opacity: 0; /* Start hidden */
+
+.glowing-grid-background {
+    background-image:
+        radial-gradient(circle at center, rgba(59, 130, 246, 0.15), transparent 40%),
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 100% 100%, 30px 30px, 30px 30px;
 }
-.is-visible {
-  animation: fade-in-up 1s ease-out forwards;
+
+/* --- Scroll Animation Helpers --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- THE PROBLEMATIC .timeline-step BLOCK HAS BEEN REMOVED --- */
