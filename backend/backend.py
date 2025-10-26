@@ -69,3 +69,33 @@ async def predict(transaction: Transaction):
     except Exception as e:
         return {"error": str(e)}
 
+@app.post("/predict_csv")
+async def predict_csv(file: UploadFile = File(...)):
+    try:
+        df = pd.read_csv(file.file)
+
+        num_cols = df.shape[1]
+
+        if num_cols == 31:
+            
+            df = df.iloc[:, 1:]
+        elif num_cols == 29:
+            
+            df.insert(0, "SerialNumber", range(1, len(df) + 1))
+        elif num_cols != 30:
+            return {"error": f"Expected 30 features but got {num_cols}. Please check your CSV."}
+
+        preds = model.predict(df.values)
+        df["prediction"] = preds
+
+        frauds = df[df["prediction"] == 1]
+        fraud_list = frauds.to_dict(orient="records")
+
+        return {
+            "total": len(df),
+            "fraud_count": len(frauds),
+            "fraud_transactions": fraud_list,
+        }
+
+    except Exception as e:
+        return {"error": str(e)}
