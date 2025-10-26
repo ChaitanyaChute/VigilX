@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { FaFileUpload, FaBrain, FaExclamationTriangle, FaTasks, FaShieldAlt, FaSearch, FaChevronLeft, FaChevronRight, FaFilePdf, FaFileCsv } from 'react-icons/fa';
 
-// --- Animated Counter Component ---
 const AnimatedCounter = ({ end, duration = 2, decimals = 0, prefix = "", suffix = "" }) => {
   const [count, setCount] = useState(0);
   const ref = React.useRef(null);
@@ -15,8 +14,7 @@ const AnimatedCounter = ({ end, duration = 2, decimals = 0, prefix = "", suffix 
       }
     }, { threshold: 0.1 });
     if (ref.current) observer.observe(ref.current);
-    return () => { if (ref.current) observer.unobserve(ref.current); };
-  }, []);
+    return () => { if (ref.current) observer.unobserve(ref.current); };  }, []);
 
   useEffect(() => {
     if (!isInView) return;
@@ -40,7 +38,6 @@ const AnimatedCounter = ({ end, duration = 2, decimals = 0, prefix = "", suffix 
   return <span ref={ref}>{prefix}{count.toFixed(decimals)}{suffix}</span>;
 };
 
-// --- Mock Data ---
 const mockTransactions = [
   { id: 'TXN7892K', amount: 9850.00, date: '2025-10-20', risk: 'High', reason: 'Unusual Geo-location' },
   { id: 'TXN3456L', amount: 120.50, date: '2025-10-20', risk: 'Low', reason: 'N/A' },
@@ -54,7 +51,6 @@ const riskStyles = {
   Low: "bg-green-500/20 text-green-400 border border-green-500/30",
 };
 
-// --- MAIN COMPONENT ---
 export default function FraudDetection() {
   const [file, setFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -62,9 +58,9 @@ export default function FraudDetection() {
   const [analysisState, setAnalysisState] = useState('idle'); 
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [showManualForm, setShowManualForm] = useState(false); // 🆕 Added
-  const [features, setFeatures] = useState(Array(30).fill("")); // 🆕 Added
-  const [manualResult, setManualResult] = useState(""); // 🆕 Added
+  const [showManualForm, setShowManualForm] = useState(false); 
+  const [features, setFeatures] = useState(Array(30).fill(""));
+  const [manualResult, setManualResult] = useState(""); 
 
   const itemsPerPage = 5;
 
@@ -119,7 +115,6 @@ export default function FraudDetection() {
   );
   const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage);
 
-  // 🆕 Manual input handlers
   const handleFeatureChange = (index, value) => {
     const updated = [...features];
     updated[index] = value;
@@ -148,13 +143,11 @@ export default function FraudDetection() {
 
   return (
     <div className="bg-black text-gray-100 overflow-x-hidden relative min-h-screen">
-      {/* Background Effects */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-blue-600/10 rounded-full filter blur-3xl opacity-50 animate-blob"></div>
         <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-indigo-500/10 rounded-full filter blur-3xl opacity-50 animate-blob" style={{ animationDelay: '4s' }}></div>
       </div>
 
-      {/* ===== Upload Section ===== */}
 <section className="relative z-10 flex flex-col items-center justify-center min-h-[80vh] text-center px-6 pt-24">
   <div className="reveal visible w-full max-w-3xl">
     <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-4">
@@ -163,8 +156,6 @@ export default function FraudDetection() {
     <p className="text-lg text-gray-400 max-w-2xl mx-auto mb-10">
       Upload your transaction file or manually enter data to detect potential fraud.
     </p>
-
-    {/* Upload Box */}
     <div
       className="bg-gray-900/50 backdrop-blur-md border-2 border-dashed border-gray-700 rounded-2xl p-8 transition-all duration-300 hover:border-blue-500 hover:bg-gray-900/60"
       onDragOver={handleDragOver}
@@ -213,8 +204,6 @@ export default function FraudDetection() {
         </>
       )}
     </div>
-
-    {/* Upload & Analyze Button */}
     <button
       onClick={handleAnalyze}
       disabled={!file || isUploading || analysisState === "analyzing"}
@@ -222,15 +211,11 @@ export default function FraudDetection() {
     >
       Upload & Analyze
     </button>
-
-    {/* Divider */}
     <div className="flex items-center justify-center my-6">
       <div className="flex-grow border-t border-gray-700"></div>
       <span className="mx-4 text-gray-400 font-semibold">OR</span>
       <div className="flex-grow border-t border-gray-700"></div>
     </div>
-
-    {/* Button to show manual form */}
     <button
       onClick={() => setShowManualForm(!showManualForm)}
       className="text-lg bg-gray-800 hover:bg-gray-700 text-blue-400 font-semibold px-8 py-3 rounded-lg transition-all duration-300"
@@ -238,8 +223,6 @@ export default function FraudDetection() {
       {showManualForm ? "Hide Manual Entry" : "Enter Features Manually"}
     </button>
   </div>
-
-  {/* Manual Form (below) */}
   {showManualForm && (
     <div className="mt-10 bg-gray-900/60 border border-gray-800 rounded-2xl p-6 w-full max-w-2xl text-left">
       <h3 className="text-2xl font-semibold mb-4 text-white text-center">
@@ -274,8 +257,6 @@ export default function FraudDetection() {
     </div>
   )}
 </section>
-
-      {/* (Rest of your dashboard below remains unchanged — summary, table, etc.) */}
     </div>
   );
 }
